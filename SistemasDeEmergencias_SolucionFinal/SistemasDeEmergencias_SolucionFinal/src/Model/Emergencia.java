@@ -41,10 +41,10 @@ public class Emergencia {
     @Override
     public String toString() {
         return "Emergencia{" +
-                "tipo='" + tipo + '\'' +
-                ", ubicacion='" + ubicacion + '\'' +
-                ", gravedad=" + gravedad +
-                ", tiempoRespuesta=" + tiempoRespuesta +
+                "tipo: '" + tipo + '\'' +
+                ", ubicacion: '" + ubicacion + '\'' +
+                ", gravedad: " + gravedad +
+                ", tiempoRespuesta: " + tiempoRespuesta +
                 '}';
     }
 }
