@@ -29,18 +29,23 @@ public class Main {
             switch (opcion) {
                 case 1:
                     registrarEmergencia(scanner); // Registrar una emergencia
+                    limpiar();
                     break;
                 case 2:
                     gestionRecursos.mostrarRecursos(); // Ver recursos disponibles
+                    limpiar();
                     break;
                 case 3:
                     atenderEmergencia(scanner); // Atender una emergencia
+                    limpiar();
                     break;
                 case 4:
                     mostrarEstadisticas(); // Mostrar estadísticas
+                    limpiar();
                     break;
                 case 5:
                     System.out.println("Saliendo del sistema..."); // Salir del programa
+                    limpiar();
                     break;
                 default:
                     System.out.println("Opción no válida.");
@@ -51,13 +56,14 @@ public class Main {
     // Método para registrar una emergencia
     private static void registrarEmergencia(Scanner scanner) {
         System.out.print("Ingrese el tipo de emergencia (Incendio, Accidente, Robo): ");
-        String tipo = scanner.next();
+        String tipo = scanner.next().toLowerCase();
+        scanner.nextLine();
         System.out.print("Ingrese la ubicación: ");
-        String ubicacion = scanner.next();
+        String ubicacion = scanner.nextLine();
         System.out.print("Ingrese el nivel de gravedad (1: Bajo, 2: Medio, 3: Alto): ");
         int gravedad = scanner.nextInt();
 
-        // Creamos una emergencia usando la fábrica
+        // Creamos una emergencia
         Emergencia emergencia = EmergenciaFactory.crearEmergencia(tipo, ubicacion, gravedad);
         emergencias.add(emergencia); // La agregamos a la lista de emergencias
         System.out.println("Emergencia registrada: " + emergencia);
@@ -71,29 +77,99 @@ public class Main {
         }
 
         // Mostramos las emergencias registradas
-        System.out.println("Emergencias registradas:");
+        System.out.println("Emergencias registradas: ");
         for (int i = 0; i < emergencias.size(); i++) {
             System.out.println((i + 1) + ". " + emergencias.get(i));
         }
 
-        System.out.print("Seleccione una emergencia para atender: ");
-        int seleccion = scanner.nextInt() - 1;
+        System.out.print("Seleccione una emergencia para atender (número o nombre): ");
+        String seleccion = scanner.next();
 
-        if (seleccion >= 0 && seleccion < emergencias.size()) {
+        Emergencia emergencia = null;
+
+        // Verificamos si la selección es número
+        if (seleccion.matches("\\d+")) { // Verifica si es un número
+            int index = Integer.parseInt(seleccion) - 1; // Convertimos a número
+            if (index >= 0 && index < emergencias.size()) {
+                emergencia = emergencias.get(index);
+            }
+    
+            // Si se seleccionó por número, usamos un switch
+            if (emergencia != null) {
+                System.out.println("Atendiendo emergencia: " + emergencia.getTipo());
+    
+                switch (index + 1) { // Usamos index + 1 para que coincida con la selección del usuario
+                    case 1: // Para incendio
+                        gestionRecursos.asignarBomberos(2); // Enviamos 2 bomberos
+                        gestionRecursos.asignarAmbulancias(1); // Enviamos 1 ambulancia
+                        break;
+                    case 2: // Para accidente
+                        gestionRecursos.asignarAmbulancias(2); // Enviamos 2 ambulancias
+                        gestionRecursos.asignarPolicias(1); // Enviamos 1 policía
+                        break;
+                    case 3: // Para robo
+                        gestionRecursos.asignarPolicias(3); // Enviamos 3 policías
+                        break;
+                    default:
+                        System.out.println("Tipo de emergencia no reconocido.");
+                }
+    
+                emergencia.setTiempoRespuesta(30); // Simulamos que tardaron 30 minutos en llegar
+                System.out.println("Emergencia atendida con éxito.");
+            } else {
+                System.out.println("Selección no válida.");
+            }
+        } else {
+            // Si no es un número, buscamos por nombre
+            for (Emergencia em : emergencias) {
+                if (em.getTipo().equalsIgnoreCase(seleccion)) {
+                    emergencia = em;
+                    break;
+                }
+            }
+    
+            if (emergencia != null) {
+                System.out.println("Atendiendo emergencia: " + emergencia.getTipo());
+    
+                // Usamos un switch para el tipo de emergencia
+                switch (emergencia.getTipo().toLowerCase()) {
+                    case "incendio":
+                        gestionRecursos.asignarBomberos(2); // Enviamos 2 bomberos
+                        gestionRecursos.asignarAmbulancias(1); // Enviamos 1 ambulancia
+                        break;
+                    case "accidente":
+                        gestionRecursos.asignarAmbulancias(2); // Enviamos 2 ambulancias
+                        gestionRecursos.asignarPolicias(1); // Enviamos 1 policía
+                        break;
+                    case "robo":
+                        gestionRecursos.asignarPolicias(3); // Enviamos 3 policías
+                        break;
+                    default:
+                        System.out.println("Tipo de emergencia no reconocido.");
+                }
+    
+                emergencia.setTiempoRespuesta(30); // Simulamos que tardaron 30 minutos en llegar
+                System.out.println("Emergencia atendida con éxito.");
+            } else {
+                System.out.println("Selección no válida.");
+            }
+        }
+
+        /*if (seleccion >= 0 && seleccion < emergencias.size()) {
             Emergencia emergencia = emergencias.get(seleccion);
             System.out.println("Atendiendo emergencia: " + emergencia);
 
             // Asignamos recursos según el tipo de emergencia
             switch (emergencia.getTipo()) {
-                case "Incendio":
+                case "incendio":
                     gestionRecursos.asignarBomberos(2); // Enviamos 2 bomberos
                     gestionRecursos.asignarAmbulancias(1); // Enviamos 1 ambulancia
                     break;
-                case "Accidente":
+                case "accidente":
                     gestionRecursos.asignarAmbulancias(2); // Enviamos 2 ambulancias
                     gestionRecursos.asignarPolicias(1); // Enviamos 1 policía
                     break;
-                case "Robo":
+                case "robo":
                     gestionRecursos.asignarPolicias(3); // Enviamos 3 policías
                     break;
                 default:
@@ -104,7 +180,7 @@ public class Main {
             System.out.println("Emergencia atendida con éxito.");
         } else {
             System.out.println("Selección no válida.");
-        }
+        }*/
     }
 
     // Método para mostrar estadísticas del día
@@ -117,6 +193,13 @@ public class Main {
         }
         double tiempoPromedio = emergencias.isEmpty() ? 0 : (double) tiempoTotal / emergencias.size();
         System.out.println("Tiempo promedio de respuesta: " + tiempoPromedio + " minutos");
+    }
+
+
+    // Método para limpiar la pantalla
+    public static void limpiar(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
 }

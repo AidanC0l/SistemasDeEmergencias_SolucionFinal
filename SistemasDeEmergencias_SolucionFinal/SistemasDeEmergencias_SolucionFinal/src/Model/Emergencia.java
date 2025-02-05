@@ -27,6 +27,10 @@ public class Emergencia {
     public int getGravedad() {
         return gravedad; // Nos dice qué tan grave es
     }
+    
+    public void setGravedad(int gravedad) {
+        this.gravedad = gravedad;
+    }
 
     public int getTiempoRespuesta() {
         return tiempoRespuesta; // Nos dice cuánto tiempo tardaron en llegar
@@ -41,10 +45,10 @@ public class Emergencia {
     @Override
     public String toString() {
         return "Emergencia{" +
-                "tipo='" + tipo + '\'' +
-                ", ubicacion='" + ubicacion + '\'' +
-                ", gravedad=" + gravedad +
-                ", tiempoRespuesta=" + tiempoRespuesta +
+                "tipo: '" + tipo + '\'' +
+                ", ubicacion: '" + ubicacion + '\'' +
+                ", gravedad: " + gravedad +
+                ", tiempoRespuesta: " + tiempoRespuesta +
                 '}';
     }
 }

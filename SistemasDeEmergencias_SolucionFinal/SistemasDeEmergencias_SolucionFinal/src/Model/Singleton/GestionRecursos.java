@@ -1,25 +1,25 @@
 package Model.Singleton;
 
-// Patrón Singleton: es como un jefe que controla todos los recursos
+// Patrón Singleton
 public class GestionRecursos {
-    private static GestionRecursos instancia; // Solo hay un jefe (una instancia)
+    private static GestionRecursos instancia; // La instancia unica
     private int bomberosDisponibles; // Cuántos bomberos hay disponibles
     private int ambulanciasDisponibles; // Cuántas ambulancias hay disponibles
     private int policiasDisponibles; // Cuántos policías hay disponibles
 
-    // Constructor privado: solo el jefe puede crear una instancia
+    // Constructor privado
     private GestionRecursos() {
         bomberosDisponibles = 10; // Empezamos con 10 bomberos
         ambulanciasDisponibles = 5; // Empezamos con 5 ambulancias
         policiasDisponibles = 20; // Empezamos con 20 policías
     }
 
-    // Método para obtener al jefe (la instancia única)
+    // Método para obtener ala instancia única
     public static GestionRecursos getInstancia() {
         if (instancia == null) {
-            instancia = new GestionRecursos(); // Si no hay jefe, creamos uno
+            instancia = new GestionRecursos(); // creamos una
         }
-        return instancia; // Devolvemos al jefe
+        return instancia; // Devolvemos la instancia
     }
 
     // Método para asignar bomberos a una emergencia
