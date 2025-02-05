@@ -29,19 +29,23 @@ public class Main {
             switch (opcion) {
                 case 1:
                     registrarEmergencia(scanner); // Registrar una emergencia
-                    limpiar(2);
+                    limpiar();
                     break;
                 case 2:
                     gestionRecursos.mostrarRecursos(); // Ver recursos disponibles
+                    limpiar();
                     break;
                 case 3:
                     atenderEmergencia(scanner); // Atender una emergencia
+                    limpiar();
                     break;
                 case 4:
                     mostrarEstadisticas(); // Mostrar estadísticas
+                    limpiar();
                     break;
                 case 5:
                     System.out.println("Saliendo del sistema..."); // Salir del programa
+                    limpiar();
                     break;
                 default:
                     System.out.println("Opción no válida.");
@@ -59,7 +63,7 @@ public class Main {
         System.out.print("Ingrese el nivel de gravedad (1: Bajo, 2: Medio, 3: Alto): ");
         int gravedad = scanner.nextInt();
 
-        // Creamos una emergencia usando la fábrica
+        // Creamos una emergencia
         Emergencia emergencia = EmergenciaFactory.crearEmergencia(tipo, ubicacion, gravedad);
         emergencias.add(emergencia); // La agregamos a la lista de emergencias
         System.out.println("Emergencia registrada: " + emergencia);
@@ -193,7 +197,7 @@ public class Main {
 
 
     // Método para limpiar la pantalla
-    public static void limpiar(int lineas){
+    public static void limpiar(){
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
