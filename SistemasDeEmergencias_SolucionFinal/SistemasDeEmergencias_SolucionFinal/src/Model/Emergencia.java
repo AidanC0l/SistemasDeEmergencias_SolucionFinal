@@ -1,7 +1,7 @@
 package Model;
 
 public class Emergencia {
-    
+
     private String tipo; // Tipo de emergencia (por ejemplo, "Incendio" o "Accidente")
     private String ubicacion; // Lugar donde ocurre la emergencia (por ejemplo, "Calle Principal")
     private int gravedad; // Qué tan grave es la emergencia (1: poco grave, 3: muy grave)
@@ -27,7 +27,7 @@ public class Emergencia {
     public int getGravedad() {
         return gravedad; // Nos dice qué tan grave es
     }
-    
+
     public void setGravedad(int gravedad) {
         this.gravedad = gravedad;
     }
@@ -40,17 +40,31 @@ public class Emergencia {
     public void setTiempoRespuesta(int tiempoRespuesta) {
         this.tiempoRespuesta = tiempoRespuesta; // Actualizamos el tiempo de respuesta
     }
+    
+     // metodo para hacer ue en consolo no se imprima el numero ingresado por la persona sino el nivel de gravedad en texto
+    public String gravedadTexto(int gravedad) {
+
+        if (this.gravedad == 1) {
+            return "Bajo";
+        } else if (this.gravedad == 2) {
+            return "Medio ";
+        } else if (this.gravedad == 3) {
+            return "Alto";
+        } else {
+            return "Desconocido el nivel de gravedad"; // Si el nivel de gravedad no es conocido
+        }
+
+    }
 
     // Método para mostrar la emergencia de manera bonita
     @Override
     public String toString() {
+        String nivelGravedad = gravedadTexto(gravedad); // Guardamos el nivel de gravedad en texto, teniendo en cuenta el texto que retornari el metodo gravedadTexto
         return "Emergencia{" +
                 "tipo: '" + tipo + '\'' +
                 ", ubicacion: '" + ubicacion + '\'' +
-                ", gravedad: " + gravedad +
+                ", gravedad: " + nivelGravedad +
                 ", tiempoRespuesta: " + tiempoRespuesta +
                 '}';
     }
 }
-
-
