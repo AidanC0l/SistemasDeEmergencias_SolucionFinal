@@ -41,7 +41,7 @@ public class Emergencia {
         this.tiempoRespuesta = tiempoRespuesta; // Actualizamos el tiempo de respuesta
     }
     
-     // metodo para hacer ue en consolo no se imprima el numero ingresado por la persona sino el nivel de gravedad en texto
+     // metodo para hacer en consola no se imprima el numero ingresado por la persona sino el nivel de gravedad en texto
     public String gravedadTexto(int gravedad) {
 
         if (this.gravedad == 1) {
