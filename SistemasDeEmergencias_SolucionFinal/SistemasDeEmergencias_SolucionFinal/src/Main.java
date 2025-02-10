@@ -29,23 +29,23 @@ public class Main {
             switch (opcion) {
                 case 1:
                     registrarEmergencia(scanner); // Registrar una emergencia
-                    limpiar();
+                    //limpiar();
                     break;
                 case 2:
                     gestionRecursos.mostrarRecursos(); // Ver recursos disponibles
-                    limpiar();
+                    //limpiar();
                     break;
                 case 3:
                     atenderEmergencia(scanner); // Atender una emergencia
-                    limpiar();
+                    //limpiar();
                     break;
                 case 4:
                     mostrarEstadisticas(); // Mostrar estadísticas
-                    limpiar();
+                    //limpiar();
                     break;
                 case 5:
                     System.out.println("Saliendo del sistema..."); // Salir del programa
-                    limpiar();
+                    //limpiar();
                     break;
                 default:
                     System.out.println("Opción no válida.");
@@ -60,8 +60,26 @@ public class Main {
         scanner.nextLine();
         System.out.print("Ingrese la ubicación: ");
         String ubicacion = scanner.nextLine();
-        System.out.print("Ingrese el nivel de gravedad (1: Bajo, 2: Medio, 3: Alto): ");
-        int gravedad = scanner.nextInt();
+        
+        int gravedad = 0; // Guardará el número que ingrese el usuario
+        boolean entradaValida = false; // Controla si el dato ingresado es correcto
+        
+        while (!entradaValida) { // Repite hasta que el usuario ingrese un valor válido
+            System.out.print("Ingrese el nivel de gravedad (1: Bajo, 2: Medio, 3: Alto): "); // Pide el dato
+            
+            if (scanner.hasNextInt()) { // Verifica si es un número
+                gravedad = scanner.nextInt(); // Guarda el número
+                
+                if (gravedad >= 1 && gravedad <= 3) { // Revisa que esté entre 1 y 3
+                    entradaValida = true; // Si es válido, sale del bucle
+                } else {
+                    System.out.println("Error: El número debe ser 1, 2 o 3."); // Mensaje si está fuera de rango
+                }
+            } else {
+                System.out.println("Error: Debe ingresar un número."); // Mensaje si no es un número
+                scanner.next(); // Limpia la entrada incorrecta
+            }
+        }
 
         // Creamos una emergencia
         Emergencia emergencia = EmergenciaFactory.crearEmergencia(tipo, ubicacion, gravedad);
